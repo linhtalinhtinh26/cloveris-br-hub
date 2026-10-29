@@ -299,7 +299,7 @@
     }
 
     .lang-btn {
-      font-family: 'Baloo 2', 'Jua', 'Nunito', sans-serif;
+      font-family: 'Baloo 2', 'Nunito', 'Jua', sans-serif;
       padding: 10px 12px;
       border-radius: 18px;
       border: 2.5px solid #bddac2;
@@ -480,7 +480,19 @@
       width: 100%;
       position: relative;
       margin-bottom: 22px;
-      filter: drop-shadow(0 8px 18px rgba(45, 122, 70, 0.12));
+      will-change: transform;
+    }
+
+    .scallop-bg-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      overflow: visible;
+      filter: drop-shadow(0px 4px 8px rgba(45, 122, 70, 0.08));
     }
 
     .scallop-bg-svg {
@@ -598,7 +610,7 @@
 
     .caption-hashtags {
       margin-top: 14px;
-      font-family: 'Baloo 2', 'Jua', sans-serif;
+      font-family: 'Baloo 2', 'Nunito', 'Jua', sans-serif;
       font-size: 15.5px;
       font-weight: 700;
       color: #1e7a37;
@@ -1017,6 +1029,48 @@
     }
 
     /* ========================================================
+       👤 8. AUTHOR CREDIT (Footer outside card)
+       ======================================================== */
+    .author-credit {
+      position: absolute;
+      bottom: 8px;
+      /* Cách lề dưới cùng 8px */
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Nunito', 'Baloo 2', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: #507a5d;
+      background: rgba(255, 255, 255, 0.6);
+      /* Nền trắng hơi trong suốt */
+      padding: 4px 16px;
+      border-radius: 20px;
+      backdrop-filter: blur(4px);
+      white-space: nowrap;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(33, 94, 49, 0.08);
+    }
+
+    .author-credit a {
+      font-family: 'Baloo 2', cursive, sans-serif;
+      font-size: 14.5px;
+      font-weight: 800;
+      color: #1a6d30;
+      /* Màu xanh đậm nổi bật */
+      text-decoration: none;
+      padding: 0 2px;
+      transition: all 0.25s ease;
+    }
+
+    /* Hiệu ứng khi di chuột vào tên */
+    .author-credit a:hover {
+      color: #0f451e;
+      text-decoration: underline wavy #73c886;
+      /* Gạch chân lượn sóng cute */
+      text-underline-offset: 4px;
+    }
+
+    /* ========================================================
        🔥 9. TOP STATS BAR (Streak & Total)
        ======================================================== */
     .top-stats-bar {
@@ -1186,7 +1240,7 @@
     .milestone-num {
       font-family: 'Baloo 2';
       font-size: 46px;
-      font-weight: 900;
+      font-weight: 800;
       color: #e53935;
       display: inline-block;
       margin: 4px 0;
@@ -2675,7 +2729,6 @@
       if (!currentLang) return;
       captionTextEl.innerText = currentCaptionText;
       captionHashtagsEl.innerText = hashtagsData[currentLang] || "#CORTIS #코르티스"; // Hiển thị lại 2 tag khi có caption
-      setTimeout(updateScallopFrame, 20);
     }
 
     // ==========================================
@@ -3120,8 +3173,22 @@
     // ==========================================
     document.addEventListener('DOMContentLoaded', () => {
       initDailyCounter();
+
+      // Tự động vẽ lại khung mây bất cứ khi nào thẻ thay đổi kích thước (Fix lỗi khung lúc ẩn lúc hiện)
+      const scallopCard = document.getElementById('scallopCard');
+      if (scallopCard) {
+        const resizeObserver = new ResizeObserver(() => {
+          updateScallopFrame();
+        });
+        resizeObserver.observe(scallopCard);
+      }
     });
   </script>
+  <!-- Tác giả / Support Credit -->
+  <div class="author-credit">
+    Lỗi lầm gì liên hệ: <a href="https://www.facebook.com/pthh.uaoong.26" target="_blank"
+      rel="noopener noreferrer">Nguyễn Phương Thảo</a> 🍀
+  </div>
 </body>
 
 </html>
