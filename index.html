@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Chewy&family=Comfortaa:wght@600;700;800&family=Gaegu:wght@400;700&family=Jua&family=Nunito:wght@400;600;700;800;900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Jua&family=Nunito:wght@400;600;700;800;900&display=swap"
     rel="stylesheet" />
   <style>
     /* ========================================================
@@ -41,9 +41,9 @@
       --shadow-color: rgba(45, 122, 70, 0.15);
 
       /* Typography with 100% Vietnamese support */
-      --font-bubble: 'Baloo 2', 'Chewy', cursive, sans-serif;
+      --font-bubble: 'Baloo 2', sans-serif;
       --font-body: 'Nunito', 'Baloo 2', sans-serif;
-      --font-korean: 'Jua', 'Gaegu', 'Nunito', sans-serif;
+      --font-korean: 'Jua', 'Nunito', sans-serif;
     }
 
     * {
@@ -191,7 +191,7 @@
     }
 
     .title-text {
-      font-family: 'Baloo 2', 'Chewy', cursive, sans-serif;
+      font-family: 'Baloo 2', sans-serif;
       font-size: 46px;
       font-weight: 800;
       line-height: 1.15;
@@ -275,7 +275,7 @@
     }
 
     .lang-card-title {
-      font-family: 'Baloo 2', cursive, sans-serif;
+      font-family: 'Baloo 2', sans-serif;
       font-size: 18px;
       font-weight: 800;
       color: var(--clover-dark);
@@ -299,7 +299,7 @@
     }
 
     .lang-btn {
-      font-family: 'Baloo 2', 'Nunito', sans-serif;
+      font-family: 'Baloo 2', 'Jua', 'Nunito', sans-serif;
       padding: 10px 12px;
       border-radius: 18px;
       border: 2.5px solid #bddac2;
@@ -398,7 +398,7 @@
     }
 
     .stitch-badge {
-      font-family: 'Baloo 2', cursive, sans-serif;
+      font-family: 'Baloo 2', sans-serif;
       font-size: 12px;
       font-weight: 800;
       color: #3b744c;
@@ -438,7 +438,7 @@
     }
 
     .welcome-placeholder h3 {
-      font-family: 'Baloo 2', cursive, sans-serif;
+      font-family: 'Baloo 2', sans-serif;
       font-size: 24px;
       font-weight: 800;
       color: var(--clover-dark);
@@ -578,9 +578,27 @@
       font-weight: 600;
     }
 
+    .caption-text .contact-link {
+      color: #1a6d30;
+      font-weight: 800;
+      text-decoration: underline wavy #73c886;
+      text-underline-offset: 4px;
+      cursor: pointer;
+    }
+
+    .caption-text .contact-link:hover {
+      color: #0f451e;
+    }
+
+    .caption-text.out-of-stock {
+      font-family: 'Nunito', 'Baloo 2', sans-serif !important;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
     .caption-hashtags {
       margin-top: 14px;
-      font-family: 'Baloo 2', sans-serif;
+      font-family: 'Baloo 2', 'Jua', sans-serif;
       font-size: 15.5px;
       font-weight: 700;
       color: #1e7a37;
@@ -686,7 +704,7 @@
     }
 
     .btn-label-text {
-      font-family: 'Baloo 2', 'Chewy', cursive, sans-serif;
+      font-family: 'Baloo 2', sans-serif;
       font-size: 24px;
       font-weight: 800;
       letter-spacing: 1px;
@@ -746,7 +764,7 @@
     }
 
     .counter-number {
-      font-family: 'Baloo 2', cursive, sans-serif;
+      font-family: 'Baloo 2', sans-serif;
       font-size: 23px;
       font-weight: 800;
       color: #1a6d30;
@@ -933,7 +951,7 @@
     }
 
     .footer-quote {
-      font-family: 'Baloo 2', 'Chewy', cursive, sans-serif;
+      font-family: 'Baloo 2', sans-serif;
       font-size: 16px;
       font-weight: 800;
       letter-spacing: 0.8px;
@@ -999,48 +1017,6 @@
     }
 
     /* ========================================================
-       👤 8. AUTHOR CREDIT (Footer outside card)
-       ======================================================== */
-    .author-credit {
-      position: absolute;
-      bottom: 8px;
-      /* Cách lề dưới cùng 8px */
-      left: 50%;
-      transform: translateX(-50%);
-      font-family: 'Nunito', 'Baloo 2', sans-serif;
-      font-size: 13px;
-      font-weight: 700;
-      color: #507a5d;
-      background: rgba(255, 255, 255, 0.6);
-      /* Nền trắng hơi trong suốt */
-      padding: 4px 16px;
-      border-radius: 20px;
-      backdrop-filter: blur(4px);
-      white-space: nowrap;
-      z-index: 100;
-      box-shadow: 0 2px 8px rgba(33, 94, 49, 0.08);
-    }
-
-    .author-credit a {
-      font-family: 'Baloo 2', cursive, sans-serif;
-      font-size: 14.5px;
-      font-weight: 800;
-      color: #1a6d30;
-      /* Màu xanh đậm nổi bật */
-      text-decoration: none;
-      padding: 0 2px;
-      transition: all 0.25s ease;
-    }
-
-    /* Hiệu ứng khi di chuột vào tên */
-    .author-credit a:hover {
-      color: #0f451e;
-      text-decoration: underline wavy #73c886;
-      /* Gạch chân lượn sóng cute */
-      text-underline-offset: 4px;
-    }
-
-    /* ========================================================
        🔥 9. TOP STATS BAR (Streak & Total)
        ======================================================== */
     .top-stats-bar {
@@ -1072,7 +1048,7 @@
     }
 
     .stat-num {
-      font-family: 'Baloo 2', cursive, sans-serif;
+      font-family: 'Baloo 2', sans-serif;
       font-size: 18px;
       font-weight: 800;
       color: #1a6d30;
@@ -1189,7 +1165,7 @@
     }
 
     .milestone-title {
-      font-family: 'Baloo 2', cursive, sans-serif;
+      font-family: 'Baloo 2', sans-serif;
       font-size: 32px;
       font-weight: 800;
       color: #ff9d00;
@@ -1208,7 +1184,7 @@
     }
 
     .milestone-num {
-      font-family: 'Baloo 2', cursive;
+      font-family: 'Baloo 2';
       font-size: 46px;
       font-weight: 900;
       color: #e53935;
@@ -2654,6 +2630,7 @@
     async function pickRandomOtherCaption(animate = true) {
       if (!currentLang) return;
 
+      captionTextEl.classList.add('out-of-stock');
       captionTextEl.innerText = "⏳ Hệ thống đang bốc caption duy nhất...";
       captionHashtagsEl.innerText = ""; // Tạm ẩn hashtag lúc đang tải
 
@@ -2665,11 +2642,11 @@
         const currentLangName = currentLang === 'en' ? 'Tiếng Anh' : 'Tiếng Hàn';
 
         const otherStillHasStock = await checkStock(otherLang);
-
+        captionTextEl.classList.add('out-of-stock');
         if (otherStillHasStock) {
           captionTextEl.innerText = `⚠️ Kho ${currentLangName} đã hết!\n👉 Bạn hãy chuyển qua lấy ${otherLangName} nhé!`;
         } else {
-          captionTextEl.innerText = "🚨 Kho caption toàn cầu đã cạn kiệt!\n📩 Vui lòng liên hệ Nguyễn Phương Thảo để cập nhật thêm.";
+          captionTextEl.innerHTML = '🚨 Kho caption đã cạn kiệt!<br>📩 Vui lòng liên hệ <a href="https://www.facebook.com/pthh.uaoong.26" class="contact-link">Nguyễn Phương Thảo</a> để cập nhật thêm.';
         }
 
         currentCaptionText = "";
@@ -2677,11 +2654,20 @@
         if (copyBtn) copyBtn.style.display = 'none';
         return;
       }
+      captionTextEl.classList.remove('out-of-stock');
 
       if (copyBtn) copyBtn.style.display = 'flex';
       currentCaptionText = captionText;
       if (animate) animateCaptionSwitch();
       else renderCaption();
+    }
+
+    function animateCaptionSwitch() {
+      captionBoxEl.classList.add('fading');
+      setTimeout(() => {
+        renderCaption();
+        captionBoxEl.classList.remove('fading');
+      }, 220);
     }
 
     // 4. Hàm Render Giao diện (Đảm bảo chỉ hiện 2 tag)
@@ -3136,11 +3122,6 @@
       initDailyCounter();
     });
   </script>
-  <!-- Tác giả / Support Credit -->
-  <div class="author-credit">
-    Lỗi lầm gì thì inbox: <a href="https://www.facebook.com/pthh.uaoong.26" target="_blank"
-      rel="noopener noreferrer">Nguyễn Phương Thảo</a> 🍀
-  </div>
 </body>
 
 </html>
