@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>BrB w Cloveris 🍀 | Support CORTIS on X</title>
+  <link rel="icon" type="image/png" href="assets/images/poyoiyoi.png" />
 
   <!-- Google Fonts: Baloo 2 & Nunito for 100% Flawless Vietnamese Diacritics + Jua & Gaegu for Korean -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -12,7 +13,6 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Chewy&family=Comfortaa:wght@600;700;800&family=Gaegu:wght@400;700&family=Jua&family=Nunito:wght@400;600;700;800;900&display=swap"
     rel="stylesheet" />
-
   <style>
     /* ========================================================
        🎨 DESIGN TOKENS & SCRAPBOOK PALETTE
@@ -1039,6 +1039,193 @@
       /* Gạch chân lượn sóng cute */
       text-underline-offset: 4px;
     }
+
+    /* ========================================================
+       🔥 9. TOP STATS BAR (Streak & Total)
+       ======================================================== */
+    .top-stats-bar {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      z-index: 10;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .stat-pill {
+      background: rgba(255, 255, 255, 0.85);
+      border: 2px solid #a4d4b0;
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-family: 'Nunito', 'Baloo 2', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #2b5235;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      backdrop-filter: blur(4px);
+    }
+
+    .stat-num {
+      font-family: 'Baloo 2', cursive, sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: #1a6d30;
+    }
+
+    /* ========================================================
+       🎉 10. MILESTONE MODAL (Hiệu ứng chuỗi ngày)
+       ======================================================== */
+    .milestone-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(5px);
+      z-index: 99999;
+      display: none;
+      /* Mặc định ẩn */
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .milestone-overlay.show {
+      display: flex;
+      opacity: 1;
+    }
+
+    .milestone-box {
+      background: var(--paper-bg);
+      background-image: radial-gradient(var(--paper-dot) 1.8px, transparent 1.8px);
+      background-size: 22px 22px;
+      width: 90%;
+      max-width: 340px;
+      border-radius: 36px;
+      border: 4px solid #fedb70;
+      padding: 40px 20px 30px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+      transform: scale(0.8) translateY(20px);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .milestone-overlay.show .milestone-box {
+      transform: scale(1) translateY(0);
+    }
+
+    .close-modal-btn {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      background: #eef7f0;
+      border: 2px solid #a4d4b0;
+      color: #2b5235;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .close-modal-btn:hover {
+      background: #ffb8cf;
+      border-color: #ea8fb1;
+      color: white;
+      transform: rotate(90deg);
+    }
+
+    .milestone-mascot {
+      width: 110px;
+      height: 110px;
+      object-fit: contain;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 6px 12px rgba(33, 94, 49, 0.25));
+      animation: floatMascot 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatMascot {
+      0% {
+        transform: translateY(0) rotate(-2deg);
+      }
+
+      100% {
+        transform: translateY(-10px) rotate(4deg);
+      }
+    }
+
+    .confetti-sparkles {
+      position: absolute;
+      top: 20px;
+      width: 100%;
+      left: 0;
+      font-size: 28px;
+      letter-spacing: 20px;
+      pointer-events: none;
+      animation: blinkSparkle 1s infinite alternate;
+    }
+
+    @keyframes blinkSparkle {
+      0% {
+        opacity: 0.4;
+        transform: scale(0.9);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+    }
+
+    .milestone-title {
+      font-family: 'Baloo 2', cursive, sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      color: #ff9d00;
+      -webkit-text-stroke: 1.5px #c75c00;
+      text-shadow: 0 3px 0 #ffe6a0;
+      margin-bottom: 8px;
+      line-height: 1.1;
+    }
+
+    .milestone-desc {
+      font-family: 'Nunito', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #2b5235;
+      line-height: 1.5;
+    }
+
+    .milestone-num {
+      font-family: 'Baloo 2', cursive;
+      font-size: 46px;
+      font-weight: 900;
+      color: #e53935;
+      display: inline-block;
+      margin: 4px 0;
+      animation: pulseNum 1s infinite alternate;
+    }
+
+    @keyframes pulseNum {
+      0% {
+        transform: scale(1);
+      }
+
+      100% {
+        transform: scale(1.15) rotate(2deg);
+      }
+    }
   </style>
 </head>
 
@@ -1049,6 +1236,12 @@
 
     <!-- Top Gingham Ribbon with Scalloped Lace -->
     <header class="gingham-header">
+      <div class="top-stats-bar">
+        <div class="stat-pill" title="Chuỗi ngày copy liên tiếp">🔥 Chuỗi: <span id="streakCount"
+            class="stat-num">0</span></div>
+        <div class="stat-pill" title="Tổng số caption bạn đã copy từ trước đến nay">🌟 Tổng: <span id="totalCount"
+            class="stat-num">0</span></div>
+      </div>
       <div class="lace-trim-top"></div>
     </header>
 
@@ -1251,6 +1444,30 @@
   <div class="cute-toast" id="cuteToast">
     <span>🍀</span>
     <span id="toastMsg">Đã copy!</span>
+  </div>
+
+  <!-- ========================================================
+       🎉 HIỆU ỨNG CHÚC MỪNG CHUỖI NGÀY (MILESTONE MODAL)
+       ======================================================== -->
+  <div class="milestone-overlay" id="milestoneModal">
+    <div class="milestone-box">
+      <!-- Nút Tắt -->
+      <button class="close-modal-btn" onclick="closeMilestoneModal()">✖</button>
+
+      <!-- Hiệu ứng lấp lánh -->
+      <div class="confetti-sparkles">✨🌟✨</div>
+
+      <!-- Hình ảnh Mascot -->
+      <img src="assets/images/poyoiyoi.png" class="milestone-mascot" alt="Ball Cortis Happy"
+        onerror="this.src='assets/images/VMA-TEAM 4.png'">
+
+      <h2 class="milestone-title">Tuyệt vời quá!</h2>
+      <p class="milestone-desc">Bạn đã duy trì được chuỗi <br><span id="milestoneNumber"
+          class="milestone-num">5</span><br> ngày liên tiếp đồng hành cùng CORTIS! 🍀</p>
+
+      <!-- AUDIO CHÚC MỪNG (BẠN CHÈN LINK FILE ÂM THANH CỦA BẠN VÀO src Ở DƯỚI NHÉ) -->
+      <audio id="milestoneAudioPlayer" src="assets/audio/1.mp3" preload="auto"></audio>
+    </div>
   </div>
 
   <!-- ========================================================
@@ -2274,7 +2491,6 @@
     };
 
     const poyoiyoiAudios = [
-      "assets/audio/1.mp3",
       "assets/audio/2.mp3",
       "assets/audio/3.mp3",
       "assets/audio/4.mp3",
@@ -2333,7 +2549,10 @@
     // ⚙️ STATE MANAGEMENT
     // ==========================================
     let currentLang = null;
-    let currentIndex = 0;
+    let currentCaptionText = "";
+
+    // Khai báo 2 "túi" để đựng caption đã xáo trộn cho tiếng Anh và Hàn
+    let shuffledCaptions = { en: [], kr: [] };
 
     // DOM Elements
     const welcomePlaceholder = document.getElementById('welcomePlaceholder');
@@ -2351,8 +2570,20 @@
     const speechTextEl = document.getElementById('speechText');
 
     // ==========================================
-    // 1. LANGUAGE SELECTION
+    // 1. LANGUAGE SELECTION & CAPTION LOGIC
     // ==========================================
+
+    // Hàm xáo trộn danh sách caption (Fisher-Yates)
+    function shuffleCaptionsArray(array) {
+      let currentIndex = array.length, randomIndex;
+      while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+        [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+      }
+      return array;
+    }
+
     function setLanguage(lang) {
       if (!captionsData[lang]) return;
       currentLang = lang;
@@ -2362,21 +2593,9 @@
       const activeBtn = document.getElementById(`btn-lang-${lang}`);
       if (activeBtn) activeBtn.classList.add('active');
 
-      // Cập nhật trạng thái lựa chọn rõ ràng
-      const langStatusText = document.getElementById('langStatusText');
-      if (langStatusText) {
-        const langName = lang === 'en' ? 'English (Tiếng Anh)' : '한국어 (Tiếng Hàn)';
-        langStatusText.innerHTML = `Đang kích hoạt: <strong>${langName}</strong> · Kho 500 caption sẵn sàng! 🍀`;
-      }
-
       // Hide placeholder, show workspace
       welcomePlaceholder.style.display = 'none';
       captionWorkspace.style.display = 'flex';
-
-      // Pick random initial caption
-      const list = captionsData[currentLang];
-      currentIndex = Math.floor(Math.random() * list.length);
-      renderCaption();
 
       // Korean font tweak
       if (lang === 'kr') {
@@ -2385,27 +2604,37 @@
         captionTextEl.classList.remove('lang-kr');
       }
 
-      setTimeout(updateScallopFrame, 20);
+      // Bốc 1 câu không có hiệu ứng chuyển cảnh cho lần hiển thị đầu tiên
+      pickRandomOtherCaption(false);
+    }
+
+    function pickRandomOtherCaption(animate = true) {
+      if (!currentLang) return;
+
+      const list = captionsData[currentLang];
+      let bag = shuffledCaptions[currentLang];
+
+      // Nếu túi trống (đã rút sạch 200+ câu), nạp lại toàn bộ kho và xáo trộn vòng mới
+      if (bag.length === 0) {
+        shuffledCaptions[currentLang] = shuffleCaptionsArray([...list]);
+        bag = shuffledCaptions[currentLang]; // Cập nhật lại túi
+      }
+
+      // Rút 1 caption ra khỏi túi để hiển thị
+      currentCaptionText = bag.pop();
+
+      if (animate) {
+        animateCaptionSwitch();
+      } else {
+        renderCaption();
+      }
     }
 
     function renderCaption() {
       if (!currentLang) return;
-      const list = captionsData[currentLang];
-      captionTextEl.innerText = list[currentIndex];
+      captionTextEl.innerText = currentCaptionText;
       captionHashtagsEl.innerText = hashtagsData[currentLang] || "#CORTIS #코르티스 #CLOVERIS";
       setTimeout(updateScallopFrame, 20);
-    }
-
-    function pickRandomOtherCaption() {
-      if (!currentLang) return;
-      const list = captionsData[currentLang];
-      if (list.length <= 1) return;
-      let nextIdx = Math.floor(Math.random() * list.length);
-      while (nextIdx === currentIndex) {
-        nextIdx = Math.floor(Math.random() * list.length);
-      }
-      currentIndex = nextIdx;
-      animateCaptionSwitch();
     }
 
     function animateCaptionSwitch() {
@@ -2536,9 +2765,14 @@
       // 4. Show Toast Notification
       showToast('Đã copy! 🍀');
 
-      // 5. Update daily counter in localStorage
-      incrementDailyCounter();
-
+      // 5. Cập nhật đếm số và kiểm tra mốc chuỗi ngày
+      const streakData = incrementDailyCounter();
+      if (streakData.isMilestone) {
+        // Nếu đạt mốc (5,10,15...), trễ 0.8s cho bay icon xong rồi hiện popup
+        setTimeout(() => {
+          showMilestoneModal(streakData.streak);
+        }, 800);
+      }
       // 6. After 1 second, automatically transition to another random caption
       setTimeout(() => {
         pickRandomOtherCaption();
@@ -2594,44 +2828,127 @@
     }
 
     // ==========================================
-    // 4. DAILY COUNTER WITH LOCALSTORAGE
+    // 4. ADVANCED COUNTER & STREAK SYSTEM
     // ==========================================
     const DATE_KEY = 'cloveris_br_date_record';
-    const COUNT_KEY = 'cloveris_br_count_record';
+    const DAILY_COUNT_KEY = 'cloveris_br_count_record';
+    const TOTAL_COUNT_KEY = 'cloveris_br_total_count';
+    const STREAK_KEY = 'cloveris_br_streak';
+    const LAST_STREAK_DATE_KEY = 'cloveris_br_last_streak_date';
 
+    // Hàm lấy chuỗi ngày hiện tại (YYYY-MM-DD)
     function getTodayString() {
       const d = new Date();
       return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
     }
 
+    // Hàm kiểm tra xem ngày d1 có đúng là NGÀY HÔM QUA so với d2 không
+    function isYesterday(dateStr1, dateStr2) {
+      if (!dateStr1 || !dateStr2) return false;
+      const d1 = new Date(dateStr1);
+      const d2 = new Date(dateStr2);
+      d1.setHours(0, 0, 0, 0);
+      d2.setHours(0, 0, 0, 0);
+      const diffTime = Math.abs(d2 - d1);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      return diffDays === 1;
+    }
+
     function initDailyCounter() {
       const today = getTodayString();
       const storedDate = localStorage.getItem(DATE_KEY);
-      let count = parseInt(localStorage.getItem(COUNT_KEY) || '0', 10);
+      const lastStreakDate = localStorage.getItem(LAST_STREAK_DATE_KEY);
 
+      let dailyCount = parseInt(localStorage.getItem(DAILY_COUNT_KEY) || '0', 10);
+      let totalCount = parseInt(localStorage.getItem(TOTAL_COUNT_KEY) || '0', 10);
+      let streak = parseInt(localStorage.getItem(STREAK_KEY) || '0', 10);
+
+      // Reset daily nếu sang ngày mới
       if (storedDate !== today) {
-        count = 0;
-        localStorage.setItem(DATE_KEY, today);
-        localStorage.setItem(COUNT_KEY, '0');
+        dailyCount = 0;
       }
 
-      copyCounterEl.innerText = count;
+      // Nếu ngày cuối cùng copy không phải hôm nay VÀ cũng không phải hôm qua => Đứt chuỗi, reset về 0
+      if (lastStreakDate && lastStreakDate !== today && !isYesterday(lastStreakDate, today)) {
+        streak = 0;
+        localStorage.setItem(STREAK_KEY, '0');
+      }
+
+      // Hiển thị lên UI
+      copyCounterEl.innerText = dailyCount;
+      document.getElementById('totalCount').innerText = totalCount;
+      document.getElementById('streakCount').innerText = streak;
     }
 
     function incrementDailyCounter() {
       const today = getTodayString();
       const storedDate = localStorage.getItem(DATE_KEY);
-      let count = parseInt(localStorage.getItem(COUNT_KEY) || '0', 10);
+      const lastStreakDate = localStorage.getItem(LAST_STREAK_DATE_KEY);
 
+      let dailyCount = parseInt(localStorage.getItem(DAILY_COUNT_KEY) || '0', 10);
+      let totalCount = parseInt(localStorage.getItem(TOTAL_COUNT_KEY) || '0', 10);
+      let streak = parseInt(localStorage.getItem(STREAK_KEY) || '0', 10);
+
+      // 1. Tăng Tổng số (Luôn luôn tăng)
+      totalCount++;
+      localStorage.setItem(TOTAL_COUNT_KEY, totalCount.toString());
+      document.getElementById('totalCount').innerText = totalCount;
+
+      // 2. Xử lý Daily
       if (storedDate !== today) {
-        count = 1;
+        dailyCount = 1;
         localStorage.setItem(DATE_KEY, today);
       } else {
-        count += 1;
+        dailyCount++;
+      }
+      localStorage.setItem(DAILY_COUNT_KEY, dailyCount.toString());
+      copyCounterEl.innerText = dailyCount;
+
+      // 3. Xử lý Chuỗi (Streak)
+      let justHitMilestone = false;
+      if (lastStreakDate !== today) {
+        // Lần đầu tiên copy trong ngày hôm nay
+        if (!lastStreakDate || isYesterday(lastStreakDate, today)) {
+          streak++; // Nối tiếp chuỗi
+        } else {
+          streak = 1; // Đứt chuỗi, bắt đầu lại từ 1
+        }
+
+        localStorage.setItem(STREAK_KEY, streak.toString());
+        localStorage.setItem(LAST_STREAK_DATE_KEY, today);
+        document.getElementById('streakCount').innerText = streak;
+
+        // KIỂM TRA MỐC QUAN TRỌNG (Cấp số cộng 5: 5, 10, 15, 20...)
+        if (streak > 0 && streak % 5 === 0) {
+          justHitMilestone = true;
+        }
       }
 
-      localStorage.setItem(COUNT_KEY, count.toString());
-      copyCounterEl.innerText = count;
+      // Trả về true nếu đạt mốc để kích hoạt popup
+      return { streak: streak, isMilestone: justHitMilestone };
+    }
+
+    // Hàm mở Popup chúc mừng
+    function showMilestoneModal(streakNum) {
+      document.getElementById('milestoneNumber').innerText = streakNum;
+      const modal = document.getElementById('milestoneModal');
+      modal.classList.add('show');
+
+      // Phát âm thanh
+      try {
+        const audio = document.getElementById('milestoneAudioPlayer');
+        audio.currentTime = 0;
+        audio.play().catch(e => console.log('Trình duyệt chặn tự động phát âm thanh:', e));
+      } catch (err) { }
+    }
+
+    // Hàm đóng Popup
+    function closeMilestoneModal() {
+      const modal = document.getElementById('milestoneModal');
+      modal.classList.remove('show');
+      try {
+        document.getElementById('milestoneAudioPlayer').pause();
+      } catch (err) { }
     }
 
     // ==========================================
