@@ -1227,6 +1227,26 @@
       }
     }
   </style>
+  <!-- Firebase SDK (Compat Version) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    // Cấu hình Firebase kết nối trực tiếp đến dự án của bạn
+    const firebaseConfig = {
+      apiKey: "AIzaSyAHHutr57ANjGNcwf0wwpQUe8wox0VHcLE",
+      authDomain: "cloveris-br-hub.firebaseapp.com",
+      projectId: "cloveris-br-hub",
+      storageBucket: "cloveris-br-hub.firebasestorage.app",
+      messagingSenderId: "940208597824",
+      appId: "1:940208597824:web:39d14a4491f912ac7028a5",
+      measurementId: "G-R1JRT2Q244"
+    };
+
+    // Khởi tạo Firebase & Firestore
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+  </script>
 </head>
 
 <body>
@@ -2570,42 +2590,69 @@
     const speechTextEl = document.getElementById('speechText');
 
     // ==========================================
-    // 1. LANGUAGE SELECTION & CAPTION LOGIC
+    // ⚙️ REAL-TIME CAPTION SYSTEM (FIREBASE)
     // ==========================================
 
-    // Hàm xáo trộn danh sách caption (Fisher-Yates)
-    function shuffleCaptionsArray(array) {
-      let currentIndex = array.length, randomIndex;
-      while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex--;
-        [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+    async function fetchNextUniqueCaption(lang) {
+      try {
+        const snapshot = await db.collection('captions')
+          .where('lang', '==', lang)
+          .where('isUsed', '==', false)
+          .limit(15)
+          .get();
+
+        if (snapshot.empty) return null;
+
+        const docs = snapshot.docs;
+        const randomDoc = docs[Math.floor(Math.random() * docs.length)];
+
+        let selectedText = null;
+        await db.runTransaction(async (transaction) => {
+          const freshDoc = await transaction.get(randomDoc.ref);
+          if (!freshDoc.exists || freshDoc.data().isUsed) throw "Xung đột";
+          transaction.update(randomDoc.ref, { isUsed: true });
+          selectedText = freshDoc.data().text;
+        });
+
+        return selectedText;
+      } catch (err) {
+        return await fetchNextUniqueCaption(lang);
       }
-      return array;
     }
 
-    function setLanguage(lang) {
-      if (!captionsData[lang]) return;
-      currentLang = lang;
+    async function checkStock(lang) {
+      const snap = await db.collection('captions').where('lang', '==', lang).where('isUsed', '==', false).limit(1).get();
+      return !snap.empty;
+    }
 
-      // Update active styling
-      document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-      const activeBtn = document.getElementById(`btn-lang-${lang}`);
-      if (activeBtn) activeBtn.classList.add('active');
+    async function pickRandomOtherCaption(animate = true) {
+      if (!currentLang) return;
 
-      // Hide placeholder, show workspace
-      welcomePlaceholder.style.display = 'none';
-      captionWorkspace.style.display = 'flex';
+      captionTextEl.innerText = "⏳ Hệ thống đang bốc caption duy nhất...";
+      const captionText = await fetchNextUniqueCaption(currentLang);
 
-      // Korean font tweak
-      if (lang === 'kr') {
-        captionTextEl.classList.add('lang-kr');
-      } else {
-        captionTextEl.classList.remove('lang-kr');
+      if (!captionText) {
+        const otherLang = currentLang === 'en' ? 'kr' : 'en';
+        const otherLangName = otherLang === 'en' ? 'Tiếng Anh' : 'Tiếng Hàn';
+        const currentLangName = currentLang === 'en' ? 'Tiếng Anh' : 'Tiếng Hàn';
+
+        const otherStillHasStock = await checkStock(otherLang);
+
+        if (otherStillHasStock) {
+          captionTextEl.innerText = `⚠️ Kho ${currentLangName} đã hết!\n👉 Bạn hãy chuyển qua lấy ${otherLangName} nhé!`;
+        } else {
+          captionTextEl.innerText = "🚨 Kho caption toàn cầu đã cạn kiệt!\n📩 Vui lòng liên hệ Nguyễn Phương Thảo để cập nhật thêm.";
+        }
+
+        currentCaptionText = "";
+        if (copyBtn) copyBtn.style.display = 'none';
+        return;
       }
 
-      // Bốc 1 câu không có hiệu ứng chuyển cảnh cho lần hiển thị đầu tiên
-      pickRandomOtherCaption(false);
+      if (copyBtn) copyBtn.style.display = 'flex';
+      currentCaptionText = captionText;
+      if (animate) animateCaptionSwitch();
+      else renderCaption();
     }
 
     function pickRandomOtherCaption(animate = true) {
