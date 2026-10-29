@@ -2655,6 +2655,8 @@
       if (!currentLang) return;
 
       captionTextEl.innerText = "⏳ Hệ thống đang bốc caption duy nhất...";
+      captionHashtagsEl.innerText = ""; // Tạm ẩn hashtag lúc đang tải
+
       const captionText = await fetchNextUniqueCaption(currentLang);
 
       if (!captionText) {
@@ -2671,6 +2673,7 @@
         }
 
         currentCaptionText = "";
+        captionHashtagsEl.innerText = ""; // XÓA SẠCH HASHTAG KHI HIỆN THÔNG BÁO HẾT
         if (copyBtn) copyBtn.style.display = 'none';
         return;
       }
@@ -2681,20 +2684,12 @@
       else renderCaption();
     }
 
-    // 4. Hàm Render Giao diện (Xóa mảng cũ bị trùng)
+    // 4. Hàm Render Giao diện (Đảm bảo chỉ hiện 2 tag)
     function renderCaption() {
       if (!currentLang) return;
       captionTextEl.innerText = currentCaptionText;
-      captionHashtagsEl.innerText = hashtagsData[currentLang] || "#CORTIS #코르티스 #CLOVERIS";
+      captionHashtagsEl.innerText = hashtagsData[currentLang] || "#CORTIS #코르티스"; // Hiển thị lại 2 tag khi có caption
       setTimeout(updateScallopFrame, 20);
-    }
-
-    function animateCaptionSwitch() {
-      captionBoxEl.classList.add('fading');
-      setTimeout(() => {
-        renderCaption();
-        captionBoxEl.classList.remove('fading');
-      }, 200);
     }
 
     // ==========================================
