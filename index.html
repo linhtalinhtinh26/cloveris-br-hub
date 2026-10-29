@@ -2593,6 +2593,31 @@
     // ⚙️ REAL-TIME CAPTION SYSTEM (FIREBASE)
     // ==========================================
 
+    // 1. Hàm xử lý khi người dùng bấm chọn ngôn ngữ
+    function setLanguage(lang) {
+      if (currentLang === lang) return;
+      currentLang = lang;
+
+      // Cập nhật trạng thái đổi màu nút bấm
+      document.getElementById('btn-lang-en').classList.toggle('active', lang === 'en');
+      document.getElementById('btn-lang-kr').classList.toggle('active', lang === 'kr');
+
+      // Ẩn lời chào, hiện khung caption
+      if (welcomePlaceholder) welcomePlaceholder.style.display = 'none';
+      if (captionWorkspace) captionWorkspace.style.display = 'flex';
+
+      // Chỉnh font nếu là tiếng Hàn
+      if (lang === 'kr') {
+        captionTextEl.classList.add('lang-kr');
+      } else {
+        captionTextEl.classList.remove('lang-kr');
+      }
+
+      // Rút ngay 1 câu từ Firebase
+      pickRandomOtherCaption(false);
+    }
+
+    // 2. Hàm rút caption duy nhất chống trùng từ Firebase
     async function fetchNextUniqueCaption(lang) {
       try {
         const snapshot = await db.collection('captions')
@@ -2625,6 +2650,7 @@
       return !snap.empty;
     }
 
+    // 3. Hàm điều khiển hiển thị caption & Cảnh báo hết kho
     async function pickRandomOtherCaption(animate = true) {
       if (!currentLang) return;
 
@@ -2655,28 +2681,7 @@
       else renderCaption();
     }
 
-    function pickRandomOtherCaption(animate = true) {
-      if (!currentLang) return;
-
-      const list = captionsData[currentLang];
-      let bag = shuffledCaptions[currentLang];
-
-      // Nếu túi trống (đã rút sạch 200+ câu), nạp lại toàn bộ kho và xáo trộn vòng mới
-      if (bag.length === 0) {
-        shuffledCaptions[currentLang] = shuffleCaptionsArray([...list]);
-        bag = shuffledCaptions[currentLang]; // Cập nhật lại túi
-      }
-
-      // Rút 1 caption ra khỏi túi để hiển thị
-      currentCaptionText = bag.pop();
-
-      if (animate) {
-        animateCaptionSwitch();
-      } else {
-        renderCaption();
-      }
-    }
-
+    // 4. Hàm Render Giao diện (Xóa mảng cũ bị trùng)
     function renderCaption() {
       if (!currentLang) return;
       captionTextEl.innerText = currentCaptionText;
