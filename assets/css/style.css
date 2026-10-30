@@ -1,0 +1,1259 @@
+/* ========================================================
+🎨 DESIGN TOKENS & SCRAPBOOK PALETTE
+======================================================== */
+:root {
+    --clover-dark: #225e34;
+    --clover-base: #388e3c;
+    --clover-mid: #4caf50;
+    --clover-light: #81c784;
+    --clover-pastel: #a8dfaf;
+    --clover-mist: #e2f4e5;
+    --gingham-green: #90ba99;
+    --gingham-light: #d6ebd9;
+    --paper-bg: #fdfcf7;
+    --paper-dot: #a5d3b6;
+    --cream-yellow: #fff9e6;
+    --accent-yellow: #ffdb58;
+    --butter-yellow: #ffe599;
+    --blush-pink: #ffb8cf;
+    --scallop-pink: #f7c2d2;
+    --scallop-pink-border: #f09cb5;
+    --card-bg: #fffefa;
+    --text-main: #2b3a2f;
+    --text-muted: #5e7565;
+    --border-dark: #204c2c;
+    --shadow-color: rgba(45, 122, 70, 0.15);
+
+    /* Typography with 100% Vietnamese support */
+    --font-bubble: 'Baloo 2', sans-serif;
+    --font-body: 'Nunito', 'Baloo 2', sans-serif;
+    --font-korean: 'Jua', 'Nunito', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: #d8ecde;
+    background-image:
+        radial-gradient(#b8dec2 15%, transparent 16%),
+        radial-gradient(#b8dec2 15%, transparent 16%);
+    background-size: 38px 38px;
+    background-position: 0 0, 19px 19px;
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 24px 12px;
+    margin: 0;
+    overflow-x: hidden;
+    position: relative;
+}
+
+@media (max-width: 520px) {
+    body {
+        padding: 0;
+    }
+}
+
+/* ========================================================
+📱 MAIN SCRAPBOOK CONTAINER
+======================================================== */
+.scrapbook-wrapper {
+    width: 100%;
+    max-width: 480px;
+    min-height: 100vh;
+    background-color: var(--paper-bg);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.1),
+        0 2px 10px rgba(45, 122, 70, 0.12);
+    border-radius: 36px;
+    border: 4px solid #ffffff;
+    overflow: hidden;
+}
+
+@media (max-width: 520px) {
+    .scrapbook-wrapper {
+        border-radius: 0;
+        border: none;
+    }
+}
+
+/* ========================================================
+🏁 GINGHAM PLAID + LACE TRIM
+======================================================== */
+.gingham-header {
+    width: 100%;
+    height: 60px;
+    background-color: var(--gingham-light);
+    background-image:
+        linear-gradient(90deg, rgba(144, 186, 153, 0.55) 50%, transparent 50%),
+        linear-gradient(rgba(144, 186, 153, 0.55) 50%, transparent 50%);
+    background-size: 26px 26px;
+    position: relative;
+    z-index: 5;
+    flex-shrink: 0;
+}
+
+.lace-trim-top {
+    position: absolute;
+    bottom: -15px;
+    left: 0;
+    width: 100%;
+    height: 18px;
+    background-image: radial-gradient(circle at 11px 0px, transparent 7px, #ffffff 7.5px);
+    background-size: 22px 18px;
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.06));
+    pointer-events: none;
+    z-index: 6;
+}
+
+.lace-trim-top::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-image: radial-gradient(circle, #f3e5f5 1.5px, transparent 1.8px);
+    background-size: 22px 4px;
+}
+
+/* ========================================================
+📝 NOTEBOOK DOTTED PAPER BODY
+======================================================== */
+.scrapbook-content {
+    flex: 1;
+    background-color: var(--paper-bg);
+    background-image: radial-gradient(var(--paper-dot) 1.8px, transparent 1.8px);
+    background-size: 22px 22px;
+    padding: 18px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.doodle-sparkle {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    z-index: 3;
+    filter: drop-shadow(0 2px 4px rgba(255, 219, 88, 0.4));
+    animation: floatSparkle 3s ease-in-out infinite alternate;
+    will-change: transform;
+}
+
+@keyframes floatSparkle {
+    0% {
+        transform: translateY(0) rotate(0deg) scale(0.95);
+    }
+
+    100% {
+        transform: translateY(-7px) rotate(10deg) scale(1.08);
+    }
+}
+
+/* ========================================================
+🍀 1. TITLE: "BrB w Cloveris"
+======================================================== */
+.title-banner {
+    margin-top: 6px;
+    margin-bottom: 12px;
+    text-align: center;
+    position: relative;
+    cursor: default;
+}
+
+.title-text {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 46px;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: 0.5px;
+    color: #55b773;
+    -webkit-text-stroke: 4px #236533;
+    paint-order: stroke fill;
+    text-shadow:
+        0 4px 0 #184724,
+        0 6px 14px rgba(24, 71, 36, 0.25);
+    display: inline-flex;
+    align-items: baseline;
+    transform: rotate(-1.5deg);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.title-banner:hover .title-text {
+    transform: rotate(0deg) scale(1.03);
+}
+
+.title-sub {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--clover-dark);
+    background: rgba(226, 244, 229, 0.9);
+    border: 1.5px dashed var(--clover-mid);
+    padding: 3px 14px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-top: 4px;
+    letter-spacing: 0.6px;
+}
+
+/* ========================================================
+🌐 1. LANGUAGE SELECTION (Only English & Korean)
+======================================================== */
+/* ========================================================
+🌐 1. PHÂN TÁCH KHU VỰC CHỌN NGÔN NGỮ (LANGUAGE SELECTION CARD)
+======================================================== */
+.lang-card-box {
+    width: 100%;
+    background: #ffffff;
+    border: 2.5px solid #bddac2;
+    border-radius: 26px;
+    padding: 16px 18px 14px;
+    box-shadow:
+        0 6px 18px rgba(45, 122, 70, 0.08),
+        inset 0 2px 4px rgba(255, 255, 255, 0.8);
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 10;
+}
+
+.lang-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    border-bottom: 1.5px dashed #d1ebd6;
+    padding-bottom: 10px;
+}
+
+.lang-icon-badge {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--clover-mist);
+    border: 1.5px solid #a4d4b0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.lang-title-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.lang-card-title {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--clover-dark);
+    letter-spacing: 0.6px;
+    line-height: 1.15;
+}
+
+.lang-card-subtitle {
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    line-height: 1.25;
+}
+
+.lang-buttons-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    width: 100%;
+}
+
+.lang-btn {
+    font-family: 'Baloo 2', 'Nunito', 'Jua', sans-serif;
+    padding: 10px 12px;
+    border-radius: 18px;
+    border: 2.5px solid #bddac2;
+    background: #f7fbf8;
+    color: #2e4d36;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.04);
+    transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+    user-select: none;
+    text-align: left;
+}
+
+.lang-flag {
+    font-size: 24px;
+    line-height: 1;
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.1));
+}
+
+.lang-btn-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.lang-primary {
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1.15;
+}
+
+.lang-secondary {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #63846d;
+    margin-top: 2px;
+}
+
+.lang-btn:hover {
+    background: #ffffff;
+    border-color: var(--clover-mid);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(45, 122, 70, 0.15);
+}
+
+.lang-btn:active {
+    transform: translateY(1px);
+}
+
+.lang-btn.active {
+    background: linear-gradient(135deg, #388e3c 0%, #1b5e20 100%);
+    color: #ffffff;
+    border-color: #144919;
+    box-shadow:
+        0 6px 14px rgba(27, 94, 32, 0.35),
+        inset 0 1px 2px rgba(255, 255, 255, 0.35);
+    transform: scale(1.02);
+}
+
+.lang-btn.active .lang-secondary {
+    color: #dcedc8;
+}
+
+.lang-status-pill {
+    margin-top: 10px;
+    background: #eef7f0;
+    border-radius: 12px;
+    padding: 5px 12px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #256637;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+/* Ranh giới phân cách giữa khu chọn ngôn ngữ và khu caption */
+.section-divider-stitch {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 4px 0 14px;
+    position: relative;
+    z-index: 5;
+}
+
+.stitch-line {
+    flex: 1;
+    height: 2px;
+    background-image: linear-gradient(to right, transparent, #b5dac0 20%, #b5dac0 80%, transparent);
+}
+
+.stitch-badge {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    color: #3b744c;
+    background: #edf7ef;
+    border: 1.5px dashed #9bc8a6;
+    padding: 2px 10px;
+    border-radius: 14px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* Initial state prompt */
+.welcome-placeholder {
+    width: 100%;
+    padding: 34px 20px;
+    text-align: center;
+    background: #ffffff;
+    border: 3px dashed #b5dac0;
+    border-radius: 30px;
+    margin: 12px 0 20px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.03);
+    animation: pulseSoft 2.5s ease-in-out infinite;
+}
+
+@keyframes pulseSoft {
+
+    0%,
+    100% {
+        transform: scale(1);
+        border-color: #b5dac0;
+    }
+
+    50% {
+        transform: scale(1.01);
+        border-color: #72c786;
+    }
+}
+
+.welcome-placeholder h3 {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--clover-dark);
+    margin-bottom: 6px;
+}
+
+.welcome-placeholder p {
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* ========================================================
+🌸 2. SCALLOPED CLOUD CAPTION CARD
+======================================================== */
+.caption-workspace {
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    animation: popInCard 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes popInCard {
+    0% {
+        opacity: 0;
+        transform: translateY(16px) scale(0.95);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.scallop-card-container {
+    width: 100%;
+    position: relative;
+    margin-bottom: 22px;
+    will-change: transform;
+}
+
+.scallop-bg-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: visible;
+}
+
+.scallop-bg-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: visible;
+}
+
+.scallop-card-body {
+    width: 100%;
+    min-height: 220px;
+    position: relative;
+    z-index: 2;
+    padding: 34px 26px 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.card-sticker-cherry {
+    position: absolute;
+    top: -12px;
+    right: 14px;
+    font-size: 26px;
+    z-index: 5;
+    filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.15));
+    transform: rotate(14deg);
+    user-select: none;
+}
+
+.card-sticker-clover {
+    position: absolute;
+    top: -12px;
+    left: 14px;
+    font-size: 26px;
+    z-index: 5;
+    filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.15));
+    transform: rotate(-12deg);
+    user-select: none;
+}
+
+.card-tape {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 20px;
+    background: rgba(255, 235, 153, 0.88);
+    border-left: 2px dashed rgba(220, 180, 50, 0.6);
+    border-right: 2px dashed rgba(220, 180, 50, 0.6);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+    z-index: 5;
+    border-radius: 2px;
+}
+
+.caption-box {
+    width: 100%;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+.caption-box.fading {
+    opacity: 0;
+    transform: scale(0.96);
+}
+
+.caption-text {
+    font-family: 'Nunito', 'Baloo 2', sans-serif;
+    font-size: 19px;
+    line-height: 1.62;
+    font-weight: 700;
+    color: #2b5235;
+    letter-spacing: 0.2px;
+    word-break: break-word;
+    user-select: all;
+}
+
+.caption-text.lang-kr {
+    font-family: var(--font-korean);
+    font-size: 20px;
+    line-height: 1.65;
+    font-weight: 600;
+}
+
+.caption-text .contact-link {
+    color: #1a6d30;
+    font-weight: 800;
+    text-decoration: underline wavy #73c886;
+    text-underline-offset: 4px;
+    cursor: pointer;
+}
+
+.caption-text .contact-link:hover {
+    color: #0f451e;
+}
+
+.caption-text.out-of-stock {
+    font-family: 'Nunito', 'Baloo 2', sans-serif !important;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.caption-hashtags {
+    margin-top: 14px;
+    font-family: 'Baloo 2', 'Nunito', 'Jua', sans-serif;
+    font-size: 15.5px;
+    font-weight: 700;
+    color: #1e7a37;
+    letter-spacing: 0.4px;
+}
+
+.doodle-star-card {
+    position: absolute;
+    bottom: -18px;
+    left: -14px;
+    width: 48px;
+    height: 48px;
+    z-index: 4;
+    pointer-events: none;
+}
+
+/* ========================================================
+🎮 3. ACTION CONTROLS & COPY BUTTON (Centered Hero)
+======================================================== */
+.action-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+}
+
+/* Big Center Copy Button */
+.main-copy-btn {
+    width: 100%;
+    max-width: 280px;
+    height: 68px;
+    background: #2b7a42;
+    border: 3.5px solid #1c522c;
+    border-radius: 36px;
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow:
+        0 6px 0 #143b20,
+        0 10px 18px rgba(27, 77, 39, 0.28),
+        inset 0 3px 2px rgba(255, 255, 255, 0.35);
+    transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+    user-select: none;
+    overflow: visible;
+}
+
+.main-copy-btn:hover {
+    transform: translateY(-2px);
+    background: #328c4c;
+    box-shadow:
+        0 8px 0 #143b20,
+        0 12px 22px rgba(27, 77, 39, 0.35),
+        inset 0 3px 2px rgba(255, 255, 255, 0.4);
+}
+
+.main-copy-btn:active {
+    transform: translateY(4px);
+    box-shadow:
+        0 2px 0 #143b20,
+        0 4px 8px rgba(27, 77, 39, 0.3),
+        inset 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.btn-ears {
+    position: absolute;
+    top: -12px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 65px;
+    pointer-events: none;
+}
+
+.btn-ear {
+    width: 25px;
+    height: 15px;
+    background: #2b7a42;
+    border-top: 3.5px solid #1c522c;
+    border-left: 3.5px solid #1c522c;
+    border-right: 3.5px solid #1c522c;
+    border-radius: 14px 14px 0 0;
+}
+
+.btn-animal-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 2px;
+    line-height: 1;
+}
+
+.animal-mascot-svg {
+    width: 32px;
+    height: 18px;
+    vertical-align: middle;
+    transition: transform 0.2s;
+}
+
+.btn-label-text {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    line-height: 1;
+}
+
+/* ========================================================
+✨ FLYING EMOJIS BURST DIRECTLY FROM BUTTON CENTER
+======================================================== */
+.burst-particle {
+    position: fixed;
+    pointer-events: none;
+    user-select: none;
+    z-index: 9999;
+    font-size: 30px;
+    transform: translate(-50%, -50%);
+    animation: flyOutParticle 1.25s cubic-bezier(0.12, 0.8, 0.32, 1) forwards;
+}
+
+@keyframes flyOutParticle {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.3) rotate(0deg);
+    }
+
+    45% {
+        opacity: 1;
+        transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.4) rotate(var(--rot));
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--tx) * 1.3), calc(-50% + var(--ty) - 35px)) scale(0.85) rotate(calc(var(--rot) * 1.5));
+    }
+}
+
+/* ========================================================
+📊 4. COUNTER SECTION (Daily reset)
+======================================================== */
+.counter-badge {
+    margin-top: 16px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid #b7dcbe;
+    border-radius: 20px;
+    padding: 6px 18px;
+    font-family: 'Nunito', 'Baloo 2', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #235730;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.04);
+    cursor: default;
+}
+
+.counter-number {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 23px;
+    font-weight: 800;
+    color: #1a6d30;
+    padding: 0 2px;
+}
+
+/* ========================================================
+🦖 5. POYOIYOI MASCOT (Ball Cortis)
+======================================================== */
+.poyoiyoi-container {
+    width: 100%;
+    margin-top: 24px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    position: relative;
+    z-index: 10;
+}
+
+.poyoiyoi-btn {
+    width: 95px;
+    height: 95px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    filter: drop-shadow(0 6px 12px rgba(33, 94, 49, 0.25));
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    user-select: none;
+    flex-shrink: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    will-change: transform;
+}
+
+.poyoiyoi-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.08));
+}
+
+.poyoiyoi-btn:hover {
+    transform: scale(1.08) rotate(-4deg);
+}
+
+.poyoiyoi-btn:active {
+    transform: scale(0.92) rotate(6deg);
+}
+
+.poyoiyoi-btn.jiggle {
+    animation: squishJiggle 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes squishJiggle {
+
+    0%,
+    100% {
+        transform: scale(1, 1);
+    }
+
+    25% {
+        transform: scale(1.22, 0.82) rotate(-6deg);
+    }
+
+    50% {
+        transform: scale(0.85, 1.18) rotate(5deg);
+    }
+
+    75% {
+        transform: scale(1.08, 0.94) rotate(-3deg);
+    }
+}
+
+/* Hand-drawn Crayon Speech Bubble */
+.speech-bubble {
+    flex: 1;
+    min-height: 60px;
+    background: #fffef9;
+    border: 3.5px solid #fedb70;
+    border-radius: 26px;
+    padding: 10px 16px;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(255, 219, 88, 0.25);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.speech-bubble:hover {
+    border-color: #f7c942;
+    transform: translateY(-2px);
+}
+
+.speech-bubble::before {
+    content: '';
+    position: absolute;
+    left: -13px;
+    bottom: 18px;
+    width: 0;
+    height: 0;
+    border-top: 9px solid transparent;
+    border-bottom: 9px solid transparent;
+    border-right: 14px solid #fedb70;
+}
+
+.speech-bubble::after {
+    content: '';
+    position: absolute;
+    left: -9px;
+    bottom: 19px;
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 12px solid #fffef9;
+}
+
+.speech-text {
+    font-size: 14px;
+    font-weight: 700;
+    color: #3b5c42;
+    line-height: 1.4;
+    font-family: 'Nunito', 'Baloo 2', sans-serif;
+}
+
+/* ========================================================
+📑 6. GINGHAM FOOTER
+======================================================== */
+.gingham-footer {
+    width: 100%;
+    min-height: 95px;
+    background-color: var(--gingham-light);
+    background-image:
+        linear-gradient(90deg, rgba(144, 186, 153, 0.55) 50%, transparent 50%),
+        linear-gradient(rgba(144, 186, 153, 0.55) 50%, transparent 50%);
+    background-size: 26px 26px;
+    position: relative;
+    margin-top: auto;
+    z-index: 5;
+    flex-shrink: 0;
+    padding-bottom: 6px;
+}
+
+.lace-trim-bottom {
+    position: absolute;
+    top: -15px;
+    left: 0;
+    width: 100%;
+    height: 18px;
+    background-image: radial-gradient(circle at 11px 18px, transparent 7px, #ffffff 7.5px);
+    background-size: 22px 18px;
+    filter: drop-shadow(0 -2px 2px rgba(0, 0, 0, 0.06));
+    pointer-events: none;
+    z-index: 6;
+}
+
+.scrapbook-footer {
+    width: 100%;
+    text-align: center;
+    padding: 16px 14px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+    z-index: 7;
+}
+
+.footer-reminder {
+    font-family: 'Nunito', 'Baloo 2', sans-serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #1e5a30;
+    line-height: 1.4;
+    background: rgba(255, 255, 255, 0.85);
+    padding: 4px 14px;
+    border-radius: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.footer-quote {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    color: #12401f;
+    text-transform: uppercase;
+    line-height: 1.35;
+    padding: 2px 8px;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.9);
+}
+
+/* ========================================================
+🍞 TOAST NOTIFICATION
+======================================================== */
+.cute-toast {
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-70px) scale(0.9);
+    background: #1c562d;
+    color: #ffffff;
+    padding: 10px 24px;
+    border-radius: 30px;
+    font-family: 'Nunito', 'Baloo 2', sans-serif;
+    font-size: 15.5px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.2),
+        0 2px 0 rgba(255, 255, 255, 0.25) inset;
+    border: 2.5px solid #73c886;
+    z-index: 10000;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cute-toast.show {
+    transform: translateX(-50%) translateY(0) scale(1);
+    opacity: 1;
+}
+
+/* Audio Floater Icon */
+.audio-note-floater {
+    position: fixed;
+    pointer-events: none;
+    font-size: 20px;
+    animation: noteFloat 0.9s ease-out forwards;
+    z-index: 9999;
+}
+
+@keyframes noteFloat {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(0.8);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(15px, -45px) scale(1.3) rotate(20deg);
+    }
+}
+
+/* ========================================================
+👤 8. AUTHOR CREDIT (Chạy nối tiếp tự nhiên ở chân trang)
+======================================================== */
+.author-credit {
+    margin-top: 8px;
+    margin-bottom: 6px;
+    font-family: 'Nunito', 'Baloo 2', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #507a5d;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 4px 16px;
+    border-radius: 20px;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(33, 94, 49, 0.08);
+    display: inline-block;
+}
+
+.author-credit a {
+    font-family: 'Baloo 2', cursive, sans-serif;
+    font-size: 14.5px;
+    font-weight: 800;
+    color: #1a6d30;
+    text-decoration: none;
+    padding: 0 2px;
+    transition: all 0.25s ease;
+}
+
+.author-credit a:hover {
+    color: #0f451e;
+    text-decoration: underline wavy #73c886;
+    text-underline-offset: 4px;
+}
+
+/* ========================================================
+🔥 9. TOP STATS BAR (Streak & Total)
+======================================================== */
+.top-stats-bar {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 10;
+    width: 100%;
+    justify-content: center;
+}
+
+.stat-pill {
+    background: rgba(255, 255, 255, 0.85);
+    border: 2px solid #a4d4b0;
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-family: 'Nunito', 'Baloo 2', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #2b5235;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.stat-num {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: #1a6d30;
+}
+
+/* ========================================================
+🎉 10. MILESTONE MODAL (Hiệu ứng chuỗi ngày)
+======================================================== */
+.milestone-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    z-index: 99999;
+    display: none;
+    /* Mặc định ẩn */
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.milestone-overlay.show {
+    display: flex;
+    opacity: 1;
+}
+
+.milestone-box {
+    background: var(--paper-bg);
+    background-image: radial-gradient(var(--paper-dot) 1.8px, transparent 1.8px);
+    background-size: 22px 22px;
+    width: 90%;
+    max-width: 340px;
+    border-radius: 36px;
+    border: 4px solid #fedb70;
+    padding: 40px 20px 30px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+    transform: scale(0.8) translateY(20px);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.milestone-overlay.show .milestone-box {
+    transform: scale(1) translateY(0);
+}
+
+.close-modal-btn {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: #eef7f0;
+    border: 2px solid #a4d4b0;
+    color: #2b5235;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.close-modal-btn:hover {
+    background: #ffb8cf;
+    border-color: #ea8fb1;
+    color: white;
+    transform: rotate(90deg);
+}
+
+.milestone-mascot {
+    width: 110px;
+    height: 110px;
+    object-fit: contain;
+    margin-bottom: 12px;
+    filter: drop-shadow(0 6px 12px rgba(33, 94, 49, 0.25));
+    animation: floatMascot 2s ease-in-out infinite alternate;
+    will-change: transform;
+}
+
+@keyframes floatMascot {
+    0% {
+        transform: translateY(0) rotate(-2deg);
+    }
+
+    100% {
+        transform: translateY(-10px) rotate(4deg);
+    }
+}
+
+.confetti-sparkles {
+    position: absolute;
+    top: 20px;
+    width: 100%;
+    left: 0;
+    font-size: 28px;
+    letter-spacing: 20px;
+    pointer-events: none;
+    animation: blinkSparkle 1s infinite alternate;
+    will-change: transform;
+}
+
+@keyframes blinkSparkle {
+    0% {
+        opacity: 0.4;
+        transform: scale(0.9);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+}
+
+.milestone-title {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: #ff9d00;
+    -webkit-text-stroke: 1.5px #c75c00;
+    text-shadow: 0 3px 0 #ffe6a0;
+    margin-bottom: 8px;
+    line-height: 1.1;
+}
+
+.milestone-desc {
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #2b5235;
+    line-height: 1.5;
+}
+
+.milestone-num {
+    font-family: 'Baloo 2';
+    font-size: 46px;
+    font-weight: 800;
+    color: #e53935;
+    display: inline-block;
+    margin: 4px 0;
+    animation: pulseNum 1s infinite alternate;
+}
+
+@keyframes pulseNum {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.15) rotate(2deg);
+    }
+}
+
+/* CSS CHO BỘ ĐẾM TỪNG NGÔN NGỮ */
+.lang-counter-badge {
+    font-family: 'Nunito', 'Baloo 2', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+}
+
+.en-badge {
+    background-color: #e0f7fa;
+    color: #006064;
+    border: 1.5px dashed #b2ebf2;
+}
+
+.kr-badge {
+    background-color: #fff0f5;
+    color: #880e4f;
+    border: 1.5px dashed #f8bbd0;
+}
