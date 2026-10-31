@@ -579,8 +579,7 @@ function shuffleArray(array) {
 
 function playPoyoiyoiSound() {
     if (!poyoiyoiAudios || poyoiyoiAudios.length === 0) {
-        playCuteWebAudioPop();
-        return;
+        return; // Đã xoá tiếng bíp dự phòng
     }
 
     // Nếu đã phát hết (hoặc chưa phát lần nào), nạp lại và xáo trộn 1 vòng mới
@@ -605,19 +604,19 @@ function playPoyoiyoiSound() {
                     const a = new Audio(randomAudioUrl);
                     a.volume = 1.0;
                     a.play().catch(e => {
-                        console.warn('Direct Audio error, using synth:', e);
-                        playCuteWebAudioPop();
+                        console.warn('Direct Audio error, MP3 failed');
+                        // Đã xoá tiếng bíp
                     });
                 });
             }
         } else {
             const a = new Audio(randomAudioUrl);
             a.volume = 1.0;
-            a.play().catch(e => playCuteWebAudioPop());
+            a.play().catch(e => console.warn('Audio error')); // Đã xoá tiếng bíp
         }
     } catch (e) {
-        console.warn('General audio error, using synth:', e);
-        playCuteWebAudioPop();
+        console.warn('General audio error:', e);
+        // Đã xoá tiếng bíp
     }
 }
 
