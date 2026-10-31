@@ -50,7 +50,7 @@ const poyoiyoiAudios = [
 
 // Poyoiyoi Cute Dialogues
 const poyoiyoiQuotes = [
-    "Poyoiyoi! Chăm chỉ vì CORTIS nha Cloveris! 🍀",
+    "Poyoiyoi! Chăm chỉ vì CORTIS nha Coer! 🍀",
     "Poyoiyoiii~ CORTIS no.1 trong tim tui! ✨🌟",
     "Ball Cortis đây! Cố lên nha Coer iu dấu! 💚",
     "Poyoiyoi! Mỗi bài đăng đều giúp CORTIS tỏa sáng! 🚀",
@@ -63,6 +63,9 @@ const poyoiyoiQuotes = [
 // ==========================================
 let currentLang = null;
 let currentCaptionText = "";
+let currentCaptionRef = null;   // tham chiếu document Firestore của câu đang hiển thị
+let currentCaptionLang = null;  // ngôn ngữ của câu đang hiển thị
+let isCopying = false;          // khóa chống bấm Copy liên tiếp
 
 // Khai báo 2 "túi" để đựng caption đã xáo trộn cho tiếng Anh và Hàn
 let shuffledCaptions = { en: [], kr: [] };
@@ -154,33 +157,38 @@ function setLanguage(lang) {
     pickRandomOtherCaption(false);
 }
 
-// 2. Hàm rút caption duy nhất chống trùng từ Firebase (ĐÃ SỬA LỖI VÒNG LẶP)
+// 2. Hàm bốc caption (CHỈ ĐỌC, chưa đánh dấu isUsed). Câu chỉ bị "trừ" khi người dùng copy thành công.
 async function fetchNextUniqueCaption(lang) {
-    try {
-        const snapshot = await db.collection('captions')
-            .where('lang', '==', lang)
-            .where('isUsed', '==', false)
-            .limit(15)
-            .get();
+    const snapshot = await db.collection('captions')
+        .where('lang', '==', lang)
+        .where('isUsed', '==', false)
+        .limit(30)
+        .get();
 
-        if (snapshot.empty) return null;
+    if (snapshot.empty) return null;
 
-        const docs = snapshot.docs;
-        const randomDoc = docs[Math.floor(Math.random() * docs.length)];
+    const docs = snapshot.docs;
+    const randomDoc = docs[Math.floor(Math.random() * docs.length)];
+    return { text: randomDoc.data().text, ref: randomDoc.ref, lang: lang };
+}
 
-        let selectedText = null;
-        await db.runTransaction(async (transaction) => {
-            const freshDoc = await transaction.get(randomDoc.ref);
-            if (!freshDoc.exists || freshDoc.data().isUsed) throw new Error("Xung đột dữ liệu");
-            transaction.update(randomDoc.ref, { isUsed: true });
-            selectedText = freshDoc.data().text;
-        });
-        deductStockLocal(lang);
-
-        return selectedText;
-    } catch (err) {
-        // QUAN TRỌNG: Phải ném lỗi ra ngoài thay vì gọi lại hàm, để tránh bị treo đồng hồ cát vô hạn
-        throw err;
+// 2b. Đánh dấu isUsed = true SAU KHI copy thành công, rồi mới trừ số "Còn lại"
+async function claimCaption(ref, lang) {
+    for (let attempt = 0; attempt < 2; attempt++) {
+        try {
+            let claimed = false;
+            await db.runTransaction(async (transaction) => {
+                claimed = false;
+                const snap = await transaction.get(ref);
+                if (!snap.exists || snap.data().isUsed) return; // đã có người khác lấy trước
+                transaction.update(ref, { isUsed: true });
+                claimed = true;
+            });
+            if (claimed) deductStockLocal(lang);
+            return;
+        } catch (err) {
+            console.warn('Đánh dấu isUsed lỗi, thử lại:', err);
+        }
     }
 }
 
@@ -193,14 +201,19 @@ async function checkStock(lang) {
 async function pickRandomOtherCaption(animate = true) {
     if (!currentLang) return;
 
+    currentCaptionRef = null; // đang tải thì chưa cho copy
+    const requestLang = currentLang;
     captionTextEl.classList.add('out-of-stock');
     captionTextEl.innerText = "⏳ Hệ thống đang bốc caption duy nhất...";
     captionHashtagsEl.innerText = ""; // Tạm ẩn hashtag lúc đang tải
 
     try {
-        const captionText = await fetchNextUniqueCaption(currentLang);
+        const picked = await fetchNextUniqueCaption(requestLang);
 
-        if (!captionText) {
+        // Người dùng đã đổi ngôn ngữ trong lúc đang tải -> bỏ kết quả cũ
+        if (requestLang !== currentLang) return;
+
+        if (!picked) {
             const otherLang = currentLang === 'en' ? 'kr' : 'en';
             const otherLangName = otherLang === 'en' ? 'Tiếng Anh' : 'Tiếng Hàn';
             const currentLangName = currentLang === 'en' ? 'Tiếng Anh' : 'Tiếng Hàn';
@@ -221,7 +234,9 @@ async function pickRandomOtherCaption(animate = true) {
         captionTextEl.classList.remove('out-of-stock');
 
         if (copyBtn) copyBtn.style.display = 'flex';
-        currentCaptionText = captionText;
+        currentCaptionText = picked.text;
+        currentCaptionRef = picked.ref;
+        currentCaptionLang = picked.lang;
         if (animate) animateCaptionSwitch();
         else renderCaption();
 
@@ -233,6 +248,8 @@ async function pickRandomOtherCaption(animate = true) {
         captionHashtagsEl.innerText = "";
         if (copyBtn) copyBtn.style.display = 'none';
         console.error("Lỗi lấy caption:", error);
+    } finally {
+        isCopying = false;
     }
 }
 
@@ -333,26 +350,53 @@ window.addEventListener('resize', updateScallopFrame);
 // ==========================================
 // 3. COPY BUTTON & BURST PARTICLES
 // ==========================================
-async function handleCopyClick() {
-    if (!currentLang) return;
-
-    const fullTextToCopy = `${captionTextEl.innerText}\n\n${captionHashtagsEl.innerText}`;
-
-    // 1. Copy to clipboard
+// Copy vào clipboard, trả về true/false để biết có thật sự copy được hay không
+async function copyTextToClipboard(text) {
     try {
         if (navigator.clipboard && navigator.clipboard.writeText) {
-            await navigator.clipboard.writeText(fullTextToCopy);
-        } else {
-            const tempInput = document.createElement('textarea');
-            tempInput.value = fullTextToCopy;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempInput);
+            await navigator.clipboard.writeText(text);
+            return true;
         }
     } catch (err) {
-        console.warn('Clipboard fallback:', err);
+        console.warn('Clipboard API lỗi, thử cách dự phòng:', err);
     }
+    try {
+        const tempInput = document.createElement('textarea');
+        tempInput.value = text;
+        tempInput.style.position = 'fixed';
+        tempInput.style.opacity = '0';
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        tempInput.setSelectionRange(0, tempInput.value.length);
+        const ok = document.execCommand('copy');
+        document.body.removeChild(tempInput);
+        return ok;
+    } catch (err) {
+        return false;
+    }
+}
+
+async function handleCopyClick() {
+    // Chỉ cho copy khi đã có caption thật (không copy chữ "đang bốc...") và không đang xử lý
+    if (!currentLang || !currentCaptionRef || isCopying) return;
+    isCopying = true;
+
+    const ref = currentCaptionRef;
+    const lang = currentCaptionLang;
+    const fullTextToCopy = `${captionTextEl.innerText}\n\n${captionHashtagsEl.innerText}`;
+
+    // 1. Copy to clipboard (phải làm đầu tiên để trình duyệt còn "cử chỉ bấm" của người dùng)
+    const copied = await copyTextToClipboard(fullTextToCopy);
+    if (!copied) {
+        // Copy thất bại: KHÔNG trừ câu, KHÔNG đếm, KHÔNG đổi câu
+        showToast('Chưa copy được, bạn bấm lại nha 🥲');
+        isCopying = false;
+        return;
+    }
+
+    // Copy thành công -> khóa câu này lại và đánh dấu isUsed trên Firebase
+    currentCaptionRef = null;
+    const claimPromise = claimCaption(ref, lang);
 
     // 2. Animal wink effect for 1 second
     eyesOpenSvg.style.display = 'none';
@@ -379,8 +423,10 @@ async function handleCopyClick() {
             showMilestoneModal(streakData.streak);
         }, 800);
     }
+
     // 6. After 1 second, automatically transition to another random caption
-    setTimeout(() => {
+    setTimeout(async () => {
+        await claimPromise; // đảm bảo câu cũ đã được đánh dấu xong rồi mới bốc câu mới
         pickRandomOtherCaption();
     }, 1000);
 }
@@ -577,46 +623,57 @@ function shuffleArray(array) {
     return array;
 }
 
-function playPoyoiyoiSound() {
-    if (!poyoiyoiAudios || poyoiyoiAudios.length === 0) {
-        return; // Đã xoá tiếng bíp dự phòng
-    }
+let poyoiyoiPlayToken = 0; // mỗi lần bấm 1 token, tránh các lần thử lại đè lên nhau
+
+function playPoyoiyoiSound(retry = 0) {
+    if (!poyoiyoiAudios || poyoiyoiAudios.length === 0) return;
 
     // Nếu đã phát hết (hoặc chưa phát lần nào), nạp lại và xáo trộn 1 vòng mới
     if (shuffledAudios.length === 0) {
         shuffledAudios = shuffleArray([...poyoiyoiAudios]);
     }
 
-    // Rút file cuối cùng trong danh sách đã xáo trộn ra phát
-    const randomAudioUrl = shuffledAudios.pop();
+    const audioUrl = shuffledAudios.pop();
+    const player = document.getElementById('poyoiyoiAudioPlayer');
+    const myToken = ++poyoiyoiPlayToken;
+
+    // Nếu file này lỗi/không tải được -> tự nhảy sang file kế tiếp, người dùng không bị "im lặng"
+    const skipToNext = (reason) => {
+        if (myToken !== poyoiyoiPlayToken) return; // đã có lần bấm/lần thử mới hơn
+        console.warn(`🔇 Poyoiyoi: file lỗi "${audioUrl}" (${reason}) -> thử file khác`);
+        if (retry < 5) playPoyoiyoiSound(retry + 1);
+    };
+
+    console.log('🔊 Poyoiyoi phát:', audioUrl);
 
     try {
-        const player = document.getElementById('poyoiyoiAudioPlayer');
-        if (player) {
-            player.pause();
-            player.src = randomAudioUrl;
-            player.currentTime = 0;
-            player.volume = 1.0;
-            const playPromise = player.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(err => {
-                    console.warn('Audio tag play warning, trying direct Audio:', err);
-                    const a = new Audio(randomAudioUrl);
-                    a.volume = 1.0;
-                    a.play().catch(e => {
-                        console.warn('Direct Audio error, MP3 failed');
-                        // Đã xoá tiếng bíp
-                    });
-                });
-            }
-        } else {
-            const a = new Audio(randomAudioUrl);
+        if (!player) {
+            const a = new Audio(audioUrl);
             a.volume = 1.0;
-            a.play().catch(e => console.warn('Audio error')); // Đã xoá tiếng bíp
+            a.onerror = () => skipToNext('load error');
+            a.play().catch(err => {
+                if (err.name !== 'AbortError' && err.name !== 'NotAllowedError') skipToNext(err.name);
+            });
+            return;
+        }
+
+        player.onerror = () => skipToNext('load error');
+        player.pause();
+        player.src = audioUrl;
+        player.load();
+        player.volume = 1.0;
+
+        const playPromise = player.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(err => {
+                // AbortError: bị lần bấm mới ngắt ngang -> bình thường. NotAllowedError: trình duyệt chặn -> thử lại cũng vô ích.
+                if (err.name === 'AbortError' || err.name === 'NotAllowedError') return;
+                skipToNext(err.name);
+            });
         }
     } catch (e) {
         console.warn('General audio error:', e);
-        // Đã xoá tiếng bíp
+        skipToNext('exception');
     }
 }
 
